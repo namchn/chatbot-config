@@ -1,0 +1,29 @@
+# 숙제 도우미 챗봇 (chatbot-web). 41일차에 GHCR에 올린 이미지를 씁니다
+# 이 파일이 원하는 상태 (Desired State)입니다. ArgoCD가 이대로 맞춥니다
+# 고칠 곳은 image 줄 하나: stu01은 내 아이디 (소문자), sha-1a2b3c4는 내 Tag
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatbot-web
+  labels:
+    app: chatbot-web
+spec:
+  replicas: 2
+  progressDeadlineSeconds: 60
+  selector:
+    matchLabels:
+      app: chatbot-web
+  template:
+    metadata:
+      labels:
+        app: chatbot-web
+    spec:
+      containers:
+      - name: web
+        image: ghcr.io/stu01/chatbot-ci:sha-1a2b3c4
+        ports:
+        - containerPort: 8000
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
