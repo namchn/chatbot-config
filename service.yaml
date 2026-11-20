@@ -1,0 +1,24 @@
+# 챗봇 Service 둘. 손님 Service chatbot은 version Label로 한 벌만 고르고
+# 전체 Service chatbot-all은 tier Label로 두 벌을 모두 고릅니다
+# Blue/Green 전환은 chatbot의 version 줄 한 낱말 (blue 또는 green)
+apiVersion: v1
+kind: Service
+metadata:
+  name: chatbot
+spec:
+  selector:
+    version: blue
+  ports:
+  - port: 80
+    targetPort: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chatbot-all
+spec:
+  selector:
+    tier: chat
+  ports:
+  - port: 80
+    targetPort: http

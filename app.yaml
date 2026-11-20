@@ -1,6 +1,6 @@
-# 숙제 도우미 챗봇 (chatbot-web). 41일차에 GHCR에 올린 이미지를 씁니다
-# 이 파일이 원하는 상태 (Desired State)입니다. ArgoCD가 이대로 맞춥니다
-# 고칠 곳은 image 줄 하나: stu01은 내 아이디 (소문자), sha-1a2b3c4는 내 Tag
+# 숙제 도우미 챗봇의 지금 판 (Blue). 42일차 app.yaml을 이 파일로 덮어씁니다
+# 고칠 곳은 image 줄 하나: stu01은 내 아이디 (소문자), sha-1a2b3c4는 지금 Tag
+# 롤링을 천천히 보이게 replicas 3, minReadySeconds 20, maxSurge 1로 둡니다
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -9,7 +9,13 @@ metadata:
     app: chatbot-web
 spec:
   replicas: 3
+  minReadySeconds: 20
   progressDeadlineSeconds: 60
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   selector:
     matchLabels:
       app: chatbot-web
@@ -17,12 +23,15 @@ spec:
     metadata:
       labels:
         app: chatbot-web
+        tier: chat
+        version: blue
     spec:
       containers:
       - name: web
-        image: ghcr.io/namchn/chatbot-ci:sha-ed5ecd8
+        image: ghcr.io/stu01/chatbot-ci:sha-1a2b3c4
         ports:
-        - containerPort: 8000
+        - name: http
+          containerPort: 8000
         readinessProbe:
           httpGet:
             path: /healthz
