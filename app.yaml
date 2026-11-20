@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: ghcr.io/stu01/chatbot-ci:sha-1a2b3c4
+        image: ghcr.io/namchn/chatbot-ci:sha-5b4e28d
         ports:
         - name: http
           containerPort: 8000
