@@ -12,7 +12,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/stu01/chatbot-config
+    repoURL: https://github.com/namchn/chatbot-config
     targetRevision: HEAD
     path: .
   destination:
