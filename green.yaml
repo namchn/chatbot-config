@@ -1,0 +1,38 @@
+# 대체 판의 새 판 (Green): nginx 1.28. chatbot-web 옆에 한 벌을 더 띄웁니다
+# 고칠 곳은 없습니다
+# app.yaml과 다른 줄은 chatbot-green 넷, version, image뿐입니다
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatbot-green
+  labels:
+    app: chatbot-green
+spec:
+  replicas: 3
+  minReadySeconds: 20
+  progressDeadlineSeconds: 60
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:x
+    matchLabels:
+      app: chatbot-green
+  template:
+    metadata:
+      labels:
+        app: chatbot-green
+        tier: chat
+        version: green
+    spec:
+      containers:
+      - name: web
+        image: nginx:1.28-alpine
+        ports:
+        - name: http
+          containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
