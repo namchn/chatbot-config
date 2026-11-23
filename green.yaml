@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: ghcr.io/namchn/chatbot-ci:sha-6e9954f #nginx:1.28-alpine
+        image: ghcr.io/namchn/chatbot-ci:sha-02f6cd4 #nginx:1.28-alpine
         ports:
         - name: http
           containerPort: 80
