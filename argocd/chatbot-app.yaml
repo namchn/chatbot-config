@@ -1,0 +1,26 @@
+# Application chatbot을 파일로 적은 것 (인프라 애즈 코드). 42일차
+# bash argocd/make-app.sh stu01 auto가 만든 것과 같은 내용입니다
+# 고칠 곳은 repoURL 줄 하나: stu01을 내 GitHub 아이디 (소문자)로
+# chatbot-config에 argocd/chatbot-app.yaml로 올립니다 (Create new file)
+# ArgoCD는 맨 위 폴더 (path: .)만 읽으므로 이 파일을 Sync하지 않습니다
+# 서버 쪽이 사라졌을 때 이 파일 하나를 kubectl apply하면 돌아옵니다
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: chatbot
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/stu01/chatbot-config
+    targetRevision: HEAD
+    path: .
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: chatbot
+  syncPolicy:
+    automated:
+      enabled: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
